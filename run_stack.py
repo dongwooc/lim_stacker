@@ -36,10 +36,10 @@ params.ywidth = 6 # number of y pixels to average between when getting the cutou
 params.freqwidth = 2 # number of freq pixels to average between when getting the cutout T
 params.noise_sim = True
 params.inject_signal = True
-params.inject_signal_cubes = ['../sims_for_stack/13579{}_fd.npz'.format(i) for i in 'abc']
-params.inject_signal_catas = ['../sims_for_stack/20220601_limlam_Ka10_halocats_1e11_13579{}.npz'.format(i) for i in 'abc']
-params.inject_signal_scale = 1e-5
-params.inject_signal_M_min = 1e13
+params.inject_signal_cubes = ['/media/ArchiveSix/20220602_limlam_Ka10_chopped_partial_masscut/13579{}_lt1e13.npz'.format(i) for i in 'abc']
+params.inject_signal_catas = ['/media/ArchiveSix/20220602_limlam_Ka10_chopped_partial_masscut/13579{}_halocat_1e11.npz'.format(i) for i in 'abc']
+params.inject_signal_scale = 1e-4
+params.inject_signal_M_min = (1.7e13,1.7e13,1.3e13)
 
 # cent vals (for properly centering the cutout)
 length = params.xwidth // 2
@@ -53,7 +53,7 @@ params.spacestackwidth = 10 # in pixels -- if you only want single T value from 
 params.freqstackwidth = 20 # number of channels. "" ""
 
 # plotting parameters
-params.savepath = 'output_sim_10x_6x6_hiMcut'
+params.savepath = 'output_sim_100x_6x6_wide_lt1e13'
 params.saveplots = True
 params.plotspace = True
 params.plotfreq = True

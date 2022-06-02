@@ -142,7 +142,7 @@ def setup(mapfiles, cataloguefile, params):
         catdict['dec'] = []
         for map_idx,mapinst in enumerate(maplist):
             inject_cata = np.load(params.inject_signal_catas[map_idx])
-            M_cut_mask = (inject_cata['M']>params.inject_signal_M_min)
+            M_cut_mask = (inject_cata['M']>params.inject_signal_M_min[map_idx])
             catdict['z']+= [inject_cata['z'][M_cut_mask]]
             catdict['ra']+= [inject_cata['ra'][M_cut_mask]+mapinst.fieldcent.ra.value]
             catdict['dec']+= [inject_cata['dec'][M_cut_mask]+mapinst.fieldcent.dec.value]
