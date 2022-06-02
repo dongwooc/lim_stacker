@@ -304,7 +304,7 @@ def stacker(maplist, galcatlist, params):
         spectral_plotter(stackspec, params)
 
     if params.plotspace and params.plotfreq:
-        combined_plotter(stackim, stackspec, params)
+        combined_plotter(stackim, stackspec, params, stackresult=(stacktemp*1e6,stackrms*1e6))
 
     return stacktemp, stackrms, stackim, stackspec, fieldcatidx
 
@@ -312,8 +312,8 @@ def stacker(maplist, galcatlist, params):
 def spatial_plotter(stackim, params):
 
     # corners for the beam rectangle
-    rectmin = params.spacestackwidth - 1.5
-    rectmax = params.spacestackwidth + 0.5
+    rectmin = params.spacestackwidth - (params.xwidth/2+0.5)
+    rectmax = params.spacestackwidth + (params.xwidth/2-0.5)
 
     xcorners = (rectmin, rectmin, rectmax, rectmax, rectmin)
     ycorners = (rectmin, rectmax, rectmax, rectmin, rectmin)
@@ -359,11 +359,11 @@ def spectral_plotter(stackspec, params):
 
     return 0
 
-def combined_plotter(stackim, stackspec, params):
+def combined_plotter(stackim, stackspec, params, stackresult=None):
 
     # corners for the beam rectangle
-    rectmin = params.spacestackwidth - 1.5
-    rectmax = params.spacestackwidth + 0.5
+    rectmin = params.spacestackwidth - (params.xwidth/2+0.5)
+    rectmax = params.spacestackwidth + (params.xwidth/2-0.5)
 
     xcorners = (rectmin, rectmin, rectmax, rectmax, rectmin)
     ycorners = (rectmin, rectmax, rectmax, rectmin, rectmin)
@@ -429,6 +429,8 @@ def combined_plotter(stackim, stackspec, params):
     freqax.axvline(0, color='k', ls='--')
     freqax.set_xlabel(r'$\Delta_\nu$ [GHz]')
     freqax.set_ylabel(r'T$_b$ [$\mu$K]')
+
+    fig.suptitle('$T_b = {:.3f}\\pm {:.3f}$ $\\mu$K'.format(*stackresult))
 
     if params.saveplots:
         fig.savefig(params.savepath + '/combinedstackim.png')
