@@ -306,7 +306,10 @@ def stacker(maplist, galcatlist, params):
     if params.plotspace and params.plotfreq:
         combined_plotter(stackim, stackspec, params, stackresult=(stacktemp*1e6,stackrms*1e6))
 
-    return stacktemp, stackrms, stackim, stackspec, fieldcatidx
+    if params.return_imrms:
+        return stacktemp, stackrms, stackim, stackspec, fieldcatidx, imrms
+    else:
+        return stacktemp, stackrms, stackim, stackspec, fieldcatidx
 
 """ PLOTTING FUNCTIONS """
 def spatial_plotter(stackim, params):
