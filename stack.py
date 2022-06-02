@@ -1,7 +1,8 @@
 from __future__ import absolute_import, print_function
-from .tools import *
+from tools import *
 import os
 import numpy as np
+from matplotlib.colors import CenteredNorm
 from matplotlib.patches import Rectangle
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from astropy.coordinates import SkyCoord
@@ -319,7 +320,7 @@ def spatial_plotter(stackim, params):
 
     # unsmoothed
     fig, ax = plt.subplots(1)
-    c = ax.imshow(stackim*1e6)
+    c = ax.imshow(stackim*1e6,norm=CenteredNorm(),cmap=plt.cm.PiYG_r)
     ax.plot(xcorners, ycorners, color='0.8', linewidth=4, zorder=10)
     cbar = fig.colorbar(c)
     cbar.ax.set_ylabel('Tb (uK)')
@@ -331,7 +332,7 @@ def spatial_plotter(stackim, params):
     smoothed_spacestack_gauss = convolve(stackim, params.gauss_kernel)
 
     fig, ax = plt.subplots(1)
-    c = ax.imshow(smoothed_spacestack_gauss*1e6)
+    c = ax.imshow(smoothed_spacestack_gauss*1e6,norm=CenteredNorm(),cmap=plt.cm.PiYG_r)
     ax.plot(xcorners, ycorners, color='0.8', linewidth=4, zorder=10)
     cbar = fig.colorbar(c)
     cbar.ax.set_ylabel('Tb (uK)')
@@ -377,7 +378,7 @@ def combined_plotter(stackim, stackspec, params):
 
     freqax = fig.add_subplot(gs[-1,:])
 
-    c = axs[0,0].imshow(stackim*1e6)
+    c = axs[0,0].imshow(stackim*1e6,norm=CenteredNorm(),cmap=plt.cm.PiYG_r)
     axs[0,0].plot(xcorners, ycorners, color='0.8', linewidth=4, zorder=10)
     axs[0,0].set_title('Unsmoothed')
 
@@ -400,7 +401,7 @@ def combined_plotter(stackim, stackspec, params):
 
     # smoothed
     smoothed_spacestack_gauss = convolve(stackim, params.gauss_kernel)
-    c = axs[0,1].imshow(smoothed_spacestack_gauss*1e6)
+    c = axs[0,1].imshow(smoothed_spacestack_gauss*1e6,norm=CenteredNorm(),cmap=plt.cm.PiYG_r)
     axs[0,1].plot(xcorners, ycorners, color='0.8', linewidth=4, zorder=10)
     axs[0,1].set_title('Gaussian-smoothed')
 

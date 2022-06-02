@@ -3,10 +3,10 @@ import glob
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
-import h5py
 from astropy.io import fits
-
 from astropy.cosmology import FlatLambdaCDM
+import astropy.units as u
+
 cosmo = FlatLambdaCDM(H0=70*u.km / (u.Mpc*u.s), Om0=0.286, Ob0=0.047)
 import astropy.units as u
 import astropy.constants as const
@@ -18,20 +18,28 @@ from matplotlib.patches import Rectangle
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from matplotlib.colors import SymLogNorm
 
-import stacker as st
+import stack as st
 
 # path to COMAP map files
-mapfiles = glob.glob('yr1data/*_summer.h5')
+mapfiles = glob.glob('/media/ArchiveSix/*_summer.h5')
 mapfiles = [mapfiles[0], mapfiles[2], mapfiles[1]]
 
+print(mapfiles)
+
  # path to the galaxy catalogue (I made preliminary cuts before running it through)
-galcatfile = 'BOSS_quasars/cutquasarcat.npz'
+galcatfile = '../20220601_cutquasarcat.npz'
 
 # set up a params class that you can just pass around
 params = st.empty_table()
-params.xwidth = 2 # number of x pixels to average between when getting the cutout T
-params.ywidth = 2 # number of y pixels to average between when getting the cutout T
+params.xwidth = 6 # number of x pixels to average between when getting the cutout T
+params.ywidth = 6 # number of y pixels to average between when getting the cutout T
 params.freqwidth = 2 # number of freq pixels to average between when getting the cutout T
+params.noise_sim = True
+params.inject_signal = True
+params.inject_signal_cubes = ['../sims_for_stack/13579{}_fd.npz'.format(i) for i in 'abc']
+params.inject_signal_catas = ['../sims_for_stack/20220601_limlam_Ka10_halocats_1e11_13579{}.npz'.format(i) for i in 'abc']
+params.inject_signal_scale = 1e-5
+params.inject_signal_M_min = 1e13
 
 # cent vals (for properly centering the cutout)
 length = params.xwidth // 2
@@ -45,7 +53,7 @@ params.spacestackwidth = 10 # in pixels -- if you only want single T value from 
 params.freqstackwidth = 20 # number of channels. "" ""
 
 # plotting parameters
-params.savepath = 'output'
+params.savepath = 'output_sim_10x_6x6_hiMcut'
 params.saveplots = True
 params.plotspace = True
 params.plotfreq = True

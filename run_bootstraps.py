@@ -3,7 +3,6 @@ import glob
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
-import h5py
 from astropy.io import fits
 
 from astropy.cosmology import FlatLambdaCDM
@@ -20,14 +19,14 @@ from matplotlib.colors import SymLogNorm
 # beam aperture extraction
 # from photutils.aperture import CircularAperture, aperture_photometry
 
-import lim_stacker as st
+import stack as st
 
 """example file to run the code"""
 
 # load in the data
-mapfiles = glob.glob('data/*_summer.h5')
+mapfiles = glob.glob('/media/ArchiveSix/*_summer.h5')
 mapfiles = [mapfiles[0], mapfiles[2], mapfiles[1]]
-galcatfile = 'data/cutquasarcat.npz'
+galcatfile = '../20220601_cutquasarcat.npz'
 
 # set up a params class that you can just pass around
 params = st.empty_table()
@@ -47,7 +46,7 @@ params.spacestackwidth = None # in pixels -- if you only want single T value fro
 params.freqstackwidth = None # number of channels. "" ""
 
 # plotting parameters
-params.savepath = 'beamscale_output'
+params.savepath = 'bootstrap_output'
 params.saveplots = False
 params.plotspace = False
 params.plotfreq = False
